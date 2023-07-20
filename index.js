@@ -7,5 +7,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(4200, () => {
-  console.log('Server started');
+  console.log('Server started!');
 });
