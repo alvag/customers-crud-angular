@@ -1,21 +1,23 @@
-FROM node:18-alpine AS build
+# Get NPM packages
+FROM node:18-alpine AS dependencies
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
-WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN npm install --force
-
+# Rebuild the source code only when needed
+FROM node:18-alpine AS builder
+WORKDIR /app
 COPY . .
-
+COPY --from=dependencies /app/node_modules ./node_modules
 RUN npm run build
 
-FROM nginx:1.17.1-alpine
+FROM node:18-alpine AS runner
+WORKDIR /app
 
-COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
+COPY --from=builder /app/dist ./dist
 
-COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
-EXPOSE 8080
-
-#
+CMD ["npm", "run", "server"]
