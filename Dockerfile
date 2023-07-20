@@ -1,10 +1,19 @@
-FROM node:18.10.0
-WORKDIR /usr/app
-COPY ./ /usr/app
-RUN npm install -g @angular/cli
-RUN npm install
+FROM node:18-alpine AS build
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install --force
+
+COPY . .
+
 RUN npm run build
-EXPOSE 4200
 
+FROM nginx:1.17.1-alpine
 
-CMD ["node", "index.js"]
+COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
+
+COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
