@@ -3,6 +3,10 @@
     Gestión de Clientes
   </h1>
 
+  <button mat-raised-button color="accent" class="mb-20" (click)="openEditModal()">
+    Agregar cliente
+  </button>
+
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -14,15 +18,15 @@
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="firstname">
+    <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="lastname">
+    <ng-container matColumnDef="lastName">
       <th mat-header-cell *matHeaderCellDef> Apellido </th>
-      <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
     </ng-container>
 
     <!-- Weight Column -->
