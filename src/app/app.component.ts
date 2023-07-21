@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
 
   getCustomers() {
     this.customerService.getCustomers().subscribe(data => {
+      console.log(data);
       this.dataSource = data;
     });
   }
