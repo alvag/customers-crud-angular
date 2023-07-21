@@ -1,8 +1,14 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    args: ['build', '-t', '$PROJECT_ID:$COMMIT_SHA', '.']
+    args:
+      - build
+      - '-t'
+      - '$PROJECT_ID:$COMMIT_SHA'
+      - .
   - name: gcr.io/cloud-builders/docker
-    args: ['push', '$PROJECT_ID:$COMMIT_SHA']
+    args:
+      - push
+      - '$PROJECT_ID:$COMMIT_SHA'
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - run
@@ -16,4 +22,5 @@ steps:
       - $_PLATFORM
     entrypoint: gcloud
 timeout: 1200s
-images: ['$PROJECT_ID:$COMMIT_SHA']
+images:
+  - '$PROJECT_ID:$COMMIT_SHA'
