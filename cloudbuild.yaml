@@ -1,8 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '$PROJECT_ID/$SHORT_SHA', '.']
+    args: ['build', '-t', 'us.gcr.io/$PROJECT_ID/$SHORT_SHA', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$PROJECT_ID/$SHORT_SHA']
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['run', 'deploy', '$_SERVICE_NAME', '–image', '$PROJECT_ID/$SHORT_SHA', '–region', '$_DEPLOY_REGION', '–platform', '$_PLATFORM']
+    args: ['push', 'us.gcr.io/$PROJECT_ID/$SHORT_SHA']
 images: ['us.gcr.io/$PROJECT_ID/$SHORT_SHA']
